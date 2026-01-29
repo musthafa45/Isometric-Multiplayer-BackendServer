@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|d:\\projects\\isometric-multiplayer-backendserver\\isometric-game-server\\packethandlers\\authrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|solutionrelative:isometric-game-server\\packethandlers\\authrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|d:\\projects\\isometric-multiplayer-backendserver\\isometric-game-server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|solutionrelative:isometric-game-server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|d:\\projects\\isometric-multiplayer-backendserver\\isometric-game-server\\networkserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|solutionrelative:isometric-game-server\\networkserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|d:\\projects\\isometric-multiplayer-backendserver\\isometric-game-server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|solutionrelative:isometric-game-server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|d:\\projects\\isometric-multiplayer-backendserver\\isometric-game-server\\packethandlers\\authrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|solutionrelative:isometric-game-server\\packethandlers\\authrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|d:\\projects\\isometric-multiplayer-backendserver\\isometric-game-server\\networkshared\\attributes\\handlerregisterattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -78,7 +78,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 15,
           "Children": [
             {
               "$type": "Document",
@@ -147,13 +147,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "AuthRequestHandler.cs",
               "DocumentMoniker": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\Isometric-Game-Server\\PacketHandlers\\AuthRequestHandler.cs",
               "RelativeDocumentMoniker": "Isometric-Game-Server\\PacketHandlers\\AuthRequestHandler.cs",
               "ToolTip": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\Isometric-Game-Server\\PacketHandlers\\AuthRequestHandler.cs",
               "RelativeToolTip": "Isometric-Game-Server\\PacketHandlers\\AuthRequestHandler.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAADwvxQAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAADwvx0AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-29T08:57:13.172Z",
               "EditorCaption": ""
@@ -277,13 +277,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\Isometric-Game-Server\\Program.cs",
               "RelativeDocumentMoniker": "Isometric-Game-Server\\Program.cs",
               "ToolTip": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\Isometric-Game-Server\\Program.cs",
               "RelativeToolTip": "Isometric-Game-Server\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-27T08:32:12.81Z",
               "EditorCaption": ""
@@ -296,7 +296,7 @@
               "RelativeDocumentMoniker": "Isometric-Game-Server\\NetworkServer.cs",
               "ToolTip": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\Isometric-Game-Server\\NetworkServer.cs",
               "RelativeToolTip": "Isometric-Game-Server\\NetworkServer.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAIwDIAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAowCYAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-27T08:32:14.169Z",
               "EditorCaption": ""
