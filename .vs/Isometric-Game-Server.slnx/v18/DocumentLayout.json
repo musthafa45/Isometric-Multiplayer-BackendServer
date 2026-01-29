@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|d:\\projects\\isometric-multiplayer-backendserver\\isometric-game-server\\data\\inmemoryuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|solutionrelative:isometric-game-server\\data\\inmemoryuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|d:\\projects\\isometric-multiplayer-backendserver\\isometric-game-server\\games\\usersmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|solutionrelative:isometric-game-server\\games\\usersmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|d:\\projects\\isometric-multiplayer-backendserver\\isometric-game-server\\data\\inmemoryuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|solutionrelative:isometric-game-server\\data\\inmemoryuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{27795167-A464-0673-4822-7B137810276F}|Isometric-Game-Server\\Isometric-Game-Server.csproj|d:\\projects\\isometric-multiplayer-backendserver\\isometric-game-server\\packethandlers\\authrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -78,7 +78,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
@@ -121,13 +121,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "UsersManager.cs",
               "DocumentMoniker": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\Isometric-Game-Server\\Games\\UsersManager.cs",
               "RelativeDocumentMoniker": "Isometric-Game-Server\\Games\\UsersManager.cs",
               "ToolTip": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\Isometric-Game-Server\\Games\\UsersManager.cs",
               "RelativeToolTip": "Isometric-Game-Server\\Games\\UsersManager.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-29T14:29:56.629Z",
               "EditorCaption": ""
@@ -186,13 +186,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "InMemoryUserRepository.cs",
               "DocumentMoniker": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\Isometric-Game-Server\\Data\\InMemoryUserRepository.cs",
               "RelativeDocumentMoniker": "Isometric-Game-Server\\Data\\InMemoryUserRepository.cs",
               "ToolTip": "D:\\Projects\\Isometric-Multiplayer-BackendServer\\Isometric-Game-Server\\Data\\InMemoryUserRepository.cs",
               "RelativeToolTip": "Isometric-Game-Server\\Data\\InMemoryUserRepository.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAgwB4AAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAArwB4AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-29T14:51:00.832Z",
               "EditorCaption": ""
