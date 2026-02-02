@@ -1,11 +1,10 @@
-﻿using NetworkShared;
-using NetworkShared.Attributes;
+﻿using NetworkShared.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Isometric_Game_Server.NetworkShared.Registries {
+namespace NetworkShared.Registries {
     public class HandlerRegistry {
 
         private Dictionary<PacketType, Type> _packetHandlers = new Dictionary<PacketType, Type>();

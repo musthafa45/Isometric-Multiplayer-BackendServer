@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,6 +29,7 @@ namespace Isometric_Game_Server.Data {
 
         public void Add(User entity) {
             _entities.Add(entity);
+            Console.WriteLine("User added: " + entity.Id);
         }
 
         public void Delete(User entity) {
@@ -41,7 +43,7 @@ namespace Isometric_Game_Server.Data {
                 return user;
             }
             else {
-                logger.LogError("User not found on: {Id} Id", Id);
+                logger.LogInformation("User not found on: {Id} Id", Id);
                 return null;
             }
         }
@@ -60,7 +62,7 @@ namespace Isometric_Game_Server.Data {
                 user.IsOnline = online;
             }
             else {
-                logger.LogError("User not found: {Id}", id);
+                logger.LogInformation("User not found on: {Id} Id Can't set user online status", id);
             }
         }
 

@@ -1,5 +1,8 @@
 ﻿using Isometric_Game_Server.Data;
+using LiteNetLib;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Isometric_Game_Server.Games {
     public class UsersManager {
@@ -8,6 +11,34 @@ namespace Isometric_Game_Server.Games {
 
         public UsersManager(IUserRepository userRepository) {
             this.userRepository = userRepository;
+        }
+
+        public void AddConnection(NetPeer peer) {
+            _connections.Add(peer.Id, new ServerConection {
+                ConnectionId = peer.Id,
+                Peer = peer,
+            });
+
+            Console.WriteLine($"New connection added: {peer.Id}");
+        }
+
+        public void DisconnectConnection(int peerId) {
+           ServerConection serverConection = GetConnection(peerId);
+           if(serverConection.User != null) {
+                 userRepository.SetOnline(serverConection.User.Id, false);
+
+                //MatchMaker.UnregisterPlayer(serverConection.User.Id
+                //Close Game if needed
+           }
+           _connections.Remove(peerId);
+        }
+
+        public ServerConection GetConnection(int connectionId) {
+            if(_connections.ContainsKey(connectionId)) {
+                return _connections[connectionId];
+            }
+            return null;
+            // throw new Exception("Connection not found");
         }
 
         public bool TryAuthenticateUser(int connectionId,string username, string password) {
@@ -29,8 +60,9 @@ namespace Isometric_Game_Server.Games {
                     IsOnline = true
                 };
                
+                userRepository.Add(newUser);
+
                 dbUser = newUser;
-                userRepository.Add(dbUser);
             }
 
             if(_connections.ContainsKey(connectionId)) {
@@ -40,6 +72,10 @@ namespace Isometric_Game_Server.Games {
             }
 
             return true;
+        }
+
+        public int[] GetAllConnectedPeersIdExcluding(int connectionId) {
+            return _connections.Keys.Where(id => id != connectionId).ToArray();
         }
     }
 }

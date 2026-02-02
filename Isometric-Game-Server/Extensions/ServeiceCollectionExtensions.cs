@@ -1,4 +1,4 @@
-﻿using Isometric_Game_Server.NetworkShared;
+﻿using NetworkShared;
 using Microsoft.Extensions.DependencyInjection;
 using NetworkShared.Attributes;
 using System;

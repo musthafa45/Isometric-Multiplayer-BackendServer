@@ -1,30 +1,32 @@
-﻿using Isometric_Game_Server.NetworkShared;
-using Isometric_Game_Server.NetworkShared.Registries;
+﻿using Isometric_Game_Server.Data;
+using Isometric_Game_Server.Games;
 using LiteNetLib;
+using LiteNetLib.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetworkShared;
+using NetworkShared.Registries;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
 namespace Isometric_Game_Server {
     public class NetworkServer : INetEventListener {
         private NetManager netManager;
-        private Dictionary<int, NetPeer> connections;
 
         private readonly ILogger<NetworkServer> Logger;
         private readonly IServiceProvider ServiceProvider;
+        private UsersManager usersManager;
+        private readonly NetDataWriter cachedWriter = new NetDataWriter();
 
-        public NetworkServer(ILogger<NetworkServer> logger, IServiceProvider serviceProvider) {
+        public NetworkServer(ILogger<NetworkServer> logger, IServiceProvider serviceProvider/*, UsersManager usersManager*/) {
             Logger = logger;
             ServiceProvider = serviceProvider;
+            //this.usersManager = usersManager;
         }
 
         public void Start() {
-            connections = new Dictionary<int, NetPeer>();
-
+            usersManager = ServiceProvider.GetRequiredService<UsersManager>();
             netManager = new NetManager(this) {
                 DisconnectTimeout = 100000
             };
@@ -36,6 +38,17 @@ namespace Isometric_Game_Server {
 
         public void PollEvents() {
             netManager.PollEvents();
+        }
+
+        public void SendPacketToClient(INetPacket authStatusMsg, int peerId,DeliveryMethod deliveryMethod = DeliveryMethod.ReliableOrdered) {
+            NetPeer peer = /*netManager.GetPeerById(peerId)*/usersManager.GetConnection(peerId).Peer;
+            peer.Send(GetSerializedPacket(authStatusMsg), deliveryMethod);
+        }
+
+        private byte[] GetSerializedPacket(INetPacket authStatusMsg) {
+             cachedWriter.Reset();
+             authStatusMsg.Serialize(cachedWriter);
+             return cachedWriter.Data;
         }
 
         public void OnConnectionRequest(ConnectionRequest request) {
@@ -72,13 +85,16 @@ namespace Isometric_Game_Server {
         }
 
         public void OnPeerConnected(NetPeer peer) {
-            Console.WriteLine("Peer connected: " + peer.Address + "Id " + peer.Id);
-            connections.Add(peer.Id,peer);
+            Logger.LogInformation($"User connected: {peer.Address}, ConnectionId: {peer.Id}");
+            usersManager.AddConnection(peer);
         }
 
         public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo) {
-            Console.WriteLine("Peer disconnected: " + peer.Address + "Id " + peer.Id);
-            connections.Remove(peer.Id);
+            User disconnectedUser = usersManager.GetConnection(peer.Id).User;
+            netManager.DisconnectPeer(peer);
+            usersManager.DisconnectConnection(peer.Id);
+            Logger.LogInformation($"User {disconnectedUser?.Id} disconnected.");
+            
         }
         public void OnNetworkError(IPEndPoint endPoint, SocketError socketError) {
             //throw new NotImplementedException();
@@ -105,5 +121,7 @@ namespace Isometric_Game_Server {
             packet.Deserialize(reader);
             return packet;
         }
+
+        
     }
 }

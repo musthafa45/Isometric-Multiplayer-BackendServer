@@ -1,7 +1,7 @@
 ﻿using Isometric_Game_Server.Data;
 using Isometric_Game_Server.Extensions;
 using Isometric_Game_Server.Games;
-using Isometric_Game_Server.NetworkShared.Registries;
+using NetworkShared.Registries;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
