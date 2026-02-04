@@ -1,5 +1,6 @@
 ﻿using Isometric_Game_Server.Data;
 using LiteNetLib;
+using NetworkShared.Packets.ServerClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,5 +78,18 @@ namespace Isometric_Game_Server.Games {
         public int[] GetAllConnectedPeersIdExcluding(int connectionId) {
             return _connections.Keys.Where(id => id != connectionId).ToArray();
         }
+
+        public PlayerNetDTO[] GetTopPlayersDTOs() {
+            return userRepository.GetQuery()
+                .OrderByDescending(x => x.Score)
+                .Take(10)
+                .Select(x => new PlayerNetDTO {
+                    Username = x.Id,
+                    Score = x.Score,
+                    IsOnline = x.IsOnline
+                })
+                .ToArray();
+        }
+
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Isometric-Game-Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a60c558a731c9fe586350006450bf88c53e5d79a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a1cf19c1f69d62330beebcc79aa695b1d296d1cb")]
 [assembly: System.Reflection.AssemblyProductAttribute("Isometric-Game-Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Isometric-Game-Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

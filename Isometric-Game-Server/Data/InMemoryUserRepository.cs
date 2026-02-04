@@ -52,7 +52,7 @@ namespace Isometric_Game_Server.Data {
             return _entities.AsQueryable();
         }
 
-        public ushort GetTotalCount() {
+        public ushort GetTotalOnlinePlayerCount() {
             return (ushort)_entities.Count(x => x.IsOnline);
         }
 

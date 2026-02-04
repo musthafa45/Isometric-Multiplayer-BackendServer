@@ -1,4 +1,5 @@
-﻿using Isometric_Game_Server.Games;
+﻿using Isometric_Game_Server.Data;
+using Isometric_Game_Server.Games;
 using Microsoft.Extensions.Logging;
 using NetworkShared;
 using NetworkShared.Attributes;
@@ -12,11 +13,13 @@ namespace Isometric_Game_Server.PacketHandlers {
         private readonly ILogger<AuthRequestHandler> logger;
         private readonly UsersManager usersManager;
         private readonly NetworkServer networkServer;
+        private readonly IUserRepository userRepository;
 
-        public AuthRequestHandler(ILogger<AuthRequestHandler> logger,UsersManager usersManager,NetworkServer networkServer) {
+        public AuthRequestHandler(ILogger<AuthRequestHandler> logger, IUserRepository userRepository,UsersManager usersManager,NetworkServer networkServer) {
             this.logger = logger;
             this.usersManager = usersManager;
             this.networkServer = networkServer;
+            this.userRepository = userRepository;
         }
         public void HandlePacket(INetPacket packet, int connectionId) {
 
@@ -43,9 +46,13 @@ namespace Isometric_Game_Server.PacketHandlers {
         }
 
         private void NotifyOtherPlayers(int connectionId) {
-           int[] allPlayersId = usersManager.GetAllConnectedPeersIdExcluding(connectionId);
 
-            INetPacket notifyMsg = new Net_OnServerStatus();
+            var notifyMsg = new Net_OnServerStatus {
+                OnlinePlayersCount = userRepository.GetTotalOnlinePlayerCount(),
+                TopPlayersNetDTOs = usersManager.GetTopPlayersDTOs()
+            };
+
+            int[] allPlayersId = usersManager.GetAllConnectedPeersIdExcluding(connectionId);
 
             foreach (int peerId in allPlayersId) {
                 networkServer.SendPacketToClient(notifyMsg, peerId);

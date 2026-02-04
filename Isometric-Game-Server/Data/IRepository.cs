@@ -12,6 +12,6 @@ namespace Isometric_Game_Server.Data {
 
         IQueryable<T> GetQuery();
 
-        ushort GetTotalCount();
+        ushort GetTotalOnlinePlayerCount();
     }
 }
