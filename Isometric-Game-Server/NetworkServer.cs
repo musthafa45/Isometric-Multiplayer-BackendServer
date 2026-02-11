@@ -1,5 +1,6 @@
 ﻿using Isometric_Game_Server.Data;
 using Isometric_Game_Server.Games;
+using Isometric_Game_Server.Matchmaking;
 using LiteNetLib;
 using LiteNetLib.Utils;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,13 +17,14 @@ namespace Isometric_Game_Server {
 
         private readonly ILogger<NetworkServer> Logger;
         private readonly IServiceProvider ServiceProvider;
+        private readonly Matchmaker matchmaker;
         private UsersManager usersManager;
         private readonly NetDataWriter cachedWriter = new NetDataWriter();
 
-        public NetworkServer(ILogger<NetworkServer> logger, IServiceProvider serviceProvider/*, UsersManager usersManager*/) {
+        public NetworkServer(ILogger<NetworkServer> logger, IServiceProvider serviceProvider,Matchmaker matchmaker) {
             Logger = logger;
             ServiceProvider = serviceProvider;
-            //this.usersManager = usersManager;
+            this.matchmaker = matchmaker;
         }
 
         public void Start() {
@@ -91,6 +93,7 @@ namespace Isometric_Game_Server {
 
         public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo) {
             User disconnectedUser = usersManager.GetConnection(peer.Id).User;
+            matchmaker.UnregisterPlayer(disconnectedUser.Id);
             netManager.DisconnectPeer(peer);
             usersManager.DisconnectConnection(peer.Id);
             Logger.LogInformation($"User {disconnectedUser?.Id} disconnected.");

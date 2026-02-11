@@ -9,9 +9,11 @@ namespace Isometric_Game_Server.Games {
     public class UsersManager {
         private Dictionary<int, ServerConection> _connections = new Dictionary<int , ServerConection>();
         private readonly IUserRepository userRepository;
+        private readonly NetworkServer networkServer;
 
-        public UsersManager(IUserRepository userRepository) {
+        public UsersManager(IUserRepository userRepository,NetworkServer networkServer) {
             this.userRepository = userRepository;
+            this.networkServer = networkServer;
         }
 
         public void AddConnection(NetPeer peer) {
@@ -28,9 +30,13 @@ namespace Isometric_Game_Server.Games {
            if(serverConection.User != null) {
                  userRepository.SetOnline(serverConection.User.Id, false);
 
+
+                // if this is fore real Game you cannot just notify other players that player Base is huge, Just can do with friends list or something like that,
+                // but for this simple game we can just notify all players that player Base is huge and he is offline now,
+                NotifyOtherPlayers(peerId);
                 //MatchMaker.UnregisterPlayer(serverConection.User.Id
                 //Close Game if needed
-           }
+            }
            _connections.Remove(peerId);
         }
 
@@ -89,6 +95,20 @@ namespace Isometric_Game_Server.Games {
                     IsOnline = x.IsOnline
                 })
                 .ToArray();
+        }
+
+        private void NotifyOtherPlayers(int connectionId) {
+
+            var notifyMsg = new Net_OnServerStatus {
+                OnlinePlayersCount = userRepository.GetTotalOnlinePlayerCount(),
+                TopPlayersNetDTOs = GetTopPlayersDTOs()
+            };
+
+            int[] allPlayersId = GetAllConnectedPeersIdExcluding(connectionId);
+
+            foreach (int peerId in allPlayersId) {
+                networkServer.SendPacketToClient(notifyMsg, peerId);
+            }
         }
 
     }

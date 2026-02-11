@@ -5,6 +5,7 @@ using NetworkShared.Registries;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using Isometric_Game_Server.Matchmaking;
 
 namespace Isometric_Game_Server.Infrastructure {
     public static class Container {
@@ -24,6 +25,7 @@ namespace Isometric_Game_Server.Infrastructure {
             services.AddSingleton<HandlerRegistry>();
             services.AddSingleton<IUserRepository,InMemoryUserRepository>();
             services.AddSingleton<UsersManager>();
+            services.AddSingleton<Matchmaker>();
             services.AddPacketHandlers();
         }
     }

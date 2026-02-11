@@ -13,15 +13,15 @@ namespace Isometric_Game_Server.Data {
 
         public InMemoryUserRepository(ILogger<InMemoryUserRepository> logger) {
             _entities = new List<User>{
-                new User {
-                    Id="Riyaz", Password="qqq", Score=100, IsOnline = false
-                },
-                new User {
-                    Id="Riyas", Password="qqq", Score=200, IsOnline = false
-                },
-                new User {
-                    Id="Musthafa", Password="qqq", Score=300, IsOnline = true
-                }
+                //new User {
+                //    Id="Riyaz", Password="qqq", Score=100, IsOnline = false
+                //},
+                //new User {
+                //    Id="Riyas", Password="qqq", Score=200, IsOnline = false
+                //},
+                //new User {
+                //    Id="Musthafa", Password="qqq", Score=300, IsOnline = true
+                //}
             };
 
             this.logger = logger;
