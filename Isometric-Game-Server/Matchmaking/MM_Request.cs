@@ -7,5 +7,6 @@ namespace Isometric_Game_Server.Matchmaking {
         public ServerConection ServerConection { get; set; }
         public DateTime RequestTime { get; set; }
         public bool IsMatchFound { get; set; }
+        public ushort PlayersCount { get; set; } // 2, 3, or 4
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Isometric_Game_Server.Games;
+using Isometric_Game_Server.NetworkShared.Packets.ServerClient;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -7,18 +8,25 @@ using System.Linq;
 namespace Isometric_Game_Server.Matchmaking {
     public class Matchmaker {
         private readonly ILogger<Matchmaker> logger;
-        List<MM_Request> matchMakingPool = new List<MM_Request>();
+        private readonly GameManager gameManager;
+        private readonly NetworkServer networkServer;
+        private List<MM_Request> matchMakingPool = new List<MM_Request>();
 
-        public Matchmaker(ILogger<Matchmaker> logger) {
+        public Matchmaker(ILogger<Matchmaker> logger,
+                             GameManager gameManager,
+                             NetworkServer networkServer) {
             this.logger = logger;
+            this.gameManager = gameManager;
+            this.networkServer = networkServer;
         }
 
-        public void RegisterPlayerToPool(ServerConection serverConection) {
+        public void RegisterPlayerToPool(ServerConection serverConection, ushort playersCount) {
             if(!matchMakingPool.Exists(x => x.ServerConection.User.Id == serverConection.User.Id)) {
                 matchMakingPool.Add(new MM_Request {
                     ServerConection = serverConection,
                     RequestTime = DateTime.UtcNow,
-                    IsMatchFound = false
+                    IsMatchFound = false,
+                    PlayersCount = playersCount
                 });
                 logger.LogInformation($"Player {serverConection.User.Id} added to matchmaking pool.");
 
@@ -38,52 +46,73 @@ namespace Isometric_Game_Server.Matchmaking {
             if (requester == null)
                 return;
 
-            int requesterScore = serverConection.User.Score;
+            int targetCount = requester.PlayersCount;
+            int requesterScore = requester.ServerConection.User.Score;
 
-            // Find best possible match
-            MM_Request bestMatch = null;
-            int bestScoreDiff = int.MaxValue;
+            // Find candidates with same requested player count
+            var candidates = matchMakingPool
+                .Where(x =>
+                    !x.IsMatchFound &&
+                    x.PlayersCount == targetCount &&
+                    x.ServerConection.ConnectionId != serverConection.ConnectionId &&
+                    Math.Abs(x.ServerConection.User.Score - requesterScore) <= 10
+                )
+                .OrderBy(x => Math.Abs(x.ServerConection.User.Score - requesterScore))
+                .ToList();
 
-            foreach (var candidate in matchMakingPool) {
-                if (candidate.IsMatchFound)
-                    continue;
+            // Include requester
+            List<MM_Request> matchGroup = new List<MM_Request> { 
+                requester 
+            };
 
-                if (candidate.ServerConection.ConnectionId == serverConection.ConnectionId)
-                    continue;
+            foreach (MM_Request candidate in candidates) {
+                matchGroup.Add(candidate);
 
-                int candidateScore = candidate.ServerConection.User.Score;
-                int diff = Math.Abs(candidateScore - requesterScore);
-
-                if (diff <= 10 && diff < bestScoreDiff) {
-                    bestScoreDiff = diff;
-                    bestMatch = candidate;
-                }
+                if (matchGroup.Count == targetCount)
+                    break;
             }
 
-            if (bestMatch == null) {
-                logger.LogInformation($"No suitable match found for {serverConection.User.Id} (Score {requesterScore})");
+            if (matchGroup.Count < targetCount) {
+                logger.LogInformation(
+                    $"Waiting for more players ({matchGroup.Count}/{targetCount}) for player {requester.ServerConection.User.Id}"
+                );
                 return;
             }
 
-            // 🎮 Match found
-            requester.IsMatchFound = true;
-            bestMatch.IsMatchFound = true;
-
+            // 🎮 Match Found
             Guid gameId = Guid.NewGuid();
-            requester.ServerConection.GameId = gameId;
-            bestMatch.ServerConection.GameId = gameId;
+
+            foreach (var player in matchGroup) {
+                player.IsMatchFound = true;
+                player.ServerConection.GameId = gameId;
+            }
 
             logger.LogInformation(
-                "Match found: {Player1} ({Score1}) vs {Player2} ({Score2})",
-                requester.ServerConection.User.Id,
-                requesterScore,
-                bestMatch.ServerConection.User.Id,
-                bestMatch.ServerConection.User.Score
+                $"Match found! Game {gameId} with {targetCount} players: {string.Join(", ", matchGroup.Select(p => p.ServerConection.User.Id))}"
             );
 
-            //StartGame(requester.ServerConection, bestMatch.ServerConection);
+            //remove matched players from pool
+            matchMakingPool.RemoveAll(x => matchGroup.Contains(x));
+
+            // Start the game with the matched players
+            StartGame(matchGroup.Select(p => p.ServerConection).ToList());
+
+            INetPacket msg = new Net_OnStartGame {
+                Players = matchGroup.Select(p => p.ServerConection.User.Id).ToArray(),
+                GameId = gameId
+            };
+
+            //Send match found message to players
+            foreach (MM_Request player in matchGroup) {
+                // Here you would send a message to the player using their ServerConection.Peer
+                networkServer.SendPacketToClient(msg, player.ServerConection.ConnectionId);
+            }
         }
 
+        private void StartGame(List<ServerConection> serverConections) {
+            string[] players = serverConections.Select(x => x.User.Id).ToArray();
+            gameManager.RegisterGame(players);
+        }
 
         public void UnregisterPlayer(string username) {
             var request = matchMakingPool.Find(x => x.ServerConection.User.Id == username);

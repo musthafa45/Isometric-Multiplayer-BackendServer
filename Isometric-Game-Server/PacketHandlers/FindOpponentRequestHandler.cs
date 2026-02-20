@@ -2,6 +2,7 @@
 using Isometric_Game_Server.Matchmaking;
 using NetworkShared;
 using NetworkShared.Attributes;
+using Packets.ClientServer;
 using System;
 
 namespace PacketHandlers {
@@ -17,8 +18,9 @@ namespace PacketHandlers {
         }
         public void HandlePacket(INetPacket packet, int connectionId) {
             Console.WriteLine($"Received FindOpponentRequest from connection {connectionId}");
+            Net_FindOpponentRequest msg = (Net_FindOpponentRequest)packet;
             ServerConection serverConection = usersManager.GetConnection(connectionId);
-            matchmaker.RegisterPlayerToPool(serverConection);
+            matchmaker.RegisterPlayerToPool(serverConection,msg.PlayersCount);
         }
     }
 }

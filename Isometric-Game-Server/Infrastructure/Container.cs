@@ -26,6 +26,7 @@ namespace Isometric_Game_Server.Infrastructure {
             services.AddSingleton<IUserRepository,InMemoryUserRepository>();
             services.AddSingleton<UsersManager>();
             services.AddSingleton<Matchmaker>();
+            services.AddSingleton<GameManager>();
             services.AddPacketHandlers();
         }
     }
