@@ -1,6 +1,7 @@
 ﻿using Isometric_Game_Server.Games;
 using Isometric_Game_Server.NetworkShared.Packets.ServerClient;
 using Microsoft.Extensions.Logging;
+using NetworkShared.Packets.ServerClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,17 @@ namespace Isometric_Game_Server.Matchmaking {
         private readonly ILogger<Matchmaker> logger;
         private readonly GameManager gameManager;
         private readonly NetworkServer networkServer;
+        private readonly ProblemCreator problemCreator;
         private List<MM_Request> matchMakingPool = new List<MM_Request>();
 
         public Matchmaker(ILogger<Matchmaker> logger,
                              GameManager gameManager,
-                             NetworkServer networkServer) {
+                             NetworkServer networkServer,
+                             ProblemCreator problemCreator) {
             this.logger = logger;
             this.gameManager = gameManager;
             this.networkServer = networkServer;
+            this.problemCreator = problemCreator;
         }
 
         public void RegisterPlayerToPool(ServerConection serverConection, ushort playersCount) {
@@ -102,10 +106,24 @@ namespace Isometric_Game_Server.Matchmaking {
                 GameId = gameId
             };
 
+            Problem problem = problemCreator.CreateProblem(Complexity.Low);
+
+            INetPacket msgProblem = new Net_OnGameQuestion {
+                Id = (ushort)problem.Id,
+                Complexity = problem.Complexity,
+                Question = problem.Question,
+                AnswerA = problem.AnswerA,
+                AnswerB = problem.AnswerB,
+                AnswerC = problem.AnswerC,
+                AnswerD = problem.AnswerD,
+                CorrectIndex = problem.CorrectIndex
+            };
+
             //Send match found message to players
             foreach (MM_Request player in matchGroup) {
                 // Here you would send a message to the player using their ServerConection.Peer
                 networkServer.SendPacketToClient(msg, player.ServerConection.ConnectionId);
+                networkServer.SendPacketToClient(msgProblem, player.ServerConection.ConnectionId);
             }
         }
 
